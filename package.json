@@ -1,0 +1,22 @@
+{
+  "name": "procuraqui-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "prisma generate",
+    "studio": "prisma studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^1.2.0",
+    "eslint": "^8.43.0",
+    "prisma": "^4.15.0"
+  },
+  "dependencies": {
+    "@prisma/client": "4.15.0"
+  }
+}
