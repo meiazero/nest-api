@@ -1,8 +1,8 @@
 export class User {
-    id: string
+    id?: string
+    name: string
     email: string
     password: string
-    name: string
-    createdAt: Date
-    updatedAt: Date
+    createdAt?: Date
+    updatedAt?: Date
 }
