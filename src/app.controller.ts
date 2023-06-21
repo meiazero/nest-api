@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { AppService } from './app.service'
 import { IsPublic } from './auth/decorator/is-public.decorator'
-import { CurrentUser } from './auth/decorator/current-user.decorator.ts'
-import { User } from './user/entities/user.entity'
 
+@ApiTags('users')
 @Controller()
 export class AppController {
     constructor(private readonly appService: AppService) {}
