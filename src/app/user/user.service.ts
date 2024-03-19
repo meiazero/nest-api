@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import * as bcrypt from 'bcrypt'
 import { Prisma } from '@prisma/client'
+import * as bcrypt from 'bcrypt'
 
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
 import { PrismaService } from '../../db/prisma/prisma.service'
+import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './entities/user.entity'
 import { NotUserFoundError } from './errors/not-user-found-error'
 
@@ -12,23 +11,20 @@ import { NotUserFoundError } from './errors/not-user-found-error'
 export class UserService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async createUser(createUserDto: CreateUserDto): Promise<User> {
+	async createUser(createUserDto: CreateUserDto): Promise<String | null> {
 		const data: Prisma.UserCreateInput = {
 			...createUserDto,
-			password: await bcrypt.hash(createUserDto.password, 10),
+			password: await bcrypt.hash(createUserDto.password, 10)
 		}
 
 		const user = await this.prisma.user.create({ data })
 
-		return {
-			...user,
-			password: undefined,
-		}
+		return String(user.id)
 	}
 
-	async findUserByEmail(email: string) {
+	async findUserByEmail(email: string): Promise<User | null> {
 		const data: Prisma.UserWhereUniqueInput = {
-			email,
+			email
 		}
 
 		const user = await this.prisma.user.findUnique({ where: data })
@@ -36,9 +32,9 @@ export class UserService {
 		return user
 	}
 
-	async findUserById(id: string) {
+	async findUserById(id: string): Promise<User | null> {
 		const data: Prisma.UserWhereUniqueInput = {
-			id,
+			id
 		}
 
 		const user = await this.prisma.user.findUnique({ where: data })
@@ -46,12 +42,12 @@ export class UserService {
 		return user
 	}
 
-	async findAllUsers() {
+	async findAllUsers(): Promise<Array<User> | null> {
 		const users = await this.prisma.user.findMany()
 
 		return users.map((user) => ({
 			...user,
-			password: undefined,
+			password: undefined
 		}))
 	}
 
@@ -74,20 +70,18 @@ export class UserService {
 	// 	}
 	// }
 
-	async deleteUser(id: string) {
+	async deleteUser(id: string): Promise<String | null> {
 		const data: Prisma.UserWhereUniqueInput = {
-			id,
+			id
 		}
 
 		if (!id) throw new Error('id is required')
 
-		if (!this.findUserById(id)) throw new NotUserFoundError('User not found')
+		if (!this.findUserById(id))
+			throw new NotUserFoundError('User not found')
 
 		const user = await this.prisma.user.delete({ where: data })
 
-		return {
-			...user,
-			password: undefined,
-		}
+		return String(user.id)
 	}
 }

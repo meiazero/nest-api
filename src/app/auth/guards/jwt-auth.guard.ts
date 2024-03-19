@@ -2,7 +2,7 @@
 import {
 	ExecutionContext,
 	Injectable,
-	UnauthorizedException,
+	UnauthorizedException
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 // Password
@@ -19,10 +19,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 	}
 
 	canActivate(context: ExecutionContext): Promise<boolean> | boolean {
-		const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-			context.getHandler(),
-			context.getClass(),
-		])
+		const isPublic = this.reflector.getAllAndOverride<boolean>(
+			IS_PUBLIC_KEY,
+			[context.getHandler(), context.getClass()]
+		)
 
 		if (isPublic) {
 			return true

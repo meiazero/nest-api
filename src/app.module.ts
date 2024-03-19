@@ -4,8 +4,8 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './app/auth/auth.module'
 import { JwtAuthGuard } from './app/auth/guards/jwt-auth.guard'
-import { PrismaModule } from './db/prisma/prisma.module'
 import { UserModule } from './app/user/user.module'
+import { PrismaModule } from './db/prisma/prisma.module'
 
 @Module({
 	imports: [PrismaModule, UserModule, AuthModule],
@@ -14,8 +14,8 @@ import { UserModule } from './app/user/user.module'
 		AppService,
 		{
 			provide: APP_GUARD,
-			useClass: JwtAuthGuard,
-		},
-	],
+			useClass: JwtAuthGuard
+		}
+	]
 })
 export class AppModule {}
